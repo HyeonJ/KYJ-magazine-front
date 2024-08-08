@@ -262,23 +262,3 @@ h1 a {
     width: 95%;
   }
 }
-
-/* Scroll Bar */
-#scrollableDiv {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  overflow: auto; /* 스크롤이 필요할 때만 작동하도록 */
-}
-
-/* Webkit 브라우저 (Chrome, Safari, newer versions of Opera) */
-#scrollableDiv::-webkit-scrollbar {
-  display: none;
-}
-
-/* 선택적: 터치 기기에서 스크롤 허용 */
-@media (pointer: coarse) {
-  #scrollableDiv {
-    -webkit-overflow-scrolling: touch;
-  }
-}
-/* Scroll Bar */

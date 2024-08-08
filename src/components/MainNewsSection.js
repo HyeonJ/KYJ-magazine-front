@@ -5,20 +5,22 @@ import { Link } from "react-router-dom";
 const MainNewsSection = () => {
   const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   const fetchMoreData = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/createNews/list`);
+      const response = await fetch(
+        `http://localhost:8080/api/createNews/list?page=${page}`
+      );
       const data = await response.json();
 
       console.log(data);
 
-      if (data.length === 0) {
+      if (data.content.length === 0) {
         setHasMore(false);
       } else {
-        const newItems = data.map((article) => ({
-          id: article.id, // API 응답에 id가 포함되어 있다고 가정합니다
+        const newItems = data.content.map((article) => ({
+          id: article.createNewsNum, // API 응답에 id가 포함되어 있다고 가정합니다
           title: article.title,
           // thumbnail: article.thumbnail
           thumbnail: "/default_thumbnail.webp",
