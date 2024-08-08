@@ -40,13 +40,28 @@ const NewsDetailMainSection = ({ newsId }) => {
       <h2>뉴스 상세 내용</h2>
       <p>뉴스 ID: {newsId}</p>
       <div className="news-content">{content1}</div>
+
+      <hr className="comment-divider" />
+
       <div className="reaction-icons">
-        <button className="reaction-button">
-          <FontAwesomeIcon icon={faFaceSmile} /> 좋아요
-        </button>
-        <button className="reaction-button">
-          <FontAwesomeIcon icon={faFaceSadTear} /> 싫어요
-        </button>
+        <div className="reaction-container">
+          <button className="reaction-button">
+            <FontAwesomeIcon icon={faFaceSmile} />
+          </button>
+          <div className="reaction-info">
+            <span className="reaction-text">좋아요</span>
+            <span className="count">7</span>
+          </div>
+        </div>
+        <div className="reaction-container">
+          <button className="reaction-button">
+            <FontAwesomeIcon icon={faFaceSadTear} />
+          </button>
+          <div className="reaction-info">
+            <span className="reaction-text">싫어요</span>
+            <span className="count">0</span>
+          </div>
+        </div>
       </div>
 
       <hr className="comment-divider" />
