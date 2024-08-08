@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import LoginPage from "./pages/LoginPage";
-import SigninPage from "./pages/SigninPage";
+import SignupPage from "./pages/SignupPage";
 import MainNewsSection from "./components/MainNewsSection";
 import MainLeftSection from "./components/MainLeftSection";
 import MainRightSection from "./components/MainRightSection";
@@ -43,7 +43,7 @@ function App() {
           }
         />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/signin" element={<SigninPage />} />
+        <Route path="/signin" element={<SignupPage />} />
         {/* 다른 라우트들 */}
       </Routes>
     </div>

@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./SigninPage.css";
+import "./SignupPage.css";
 
-const SigninPage = () => {
+const SignupPage = () => {
   return (
-    <div className="signin-page">
-      <h1 className="signin-title">KYJ Magazine</h1>
+    <div className="signup-page">
+      <h1 className="signup-title">KYJ Magazine</h1>
       <h2>회원가입</h2>
-      <form className="signin-form">
+      <form className="signup-form">
         <label htmlFor="username">아이디</label>
         <input type="text" id="username" name="username" required />
 
@@ -40,11 +40,11 @@ const SigninPage = () => {
 
         <button type="submit">가입하기</button>
       </form>
-      <div className="signin-links">
+      <div className="signup-links">
         <Link to="/login">이미 계정이 있으신가요? 로그인</Link>
       </div>
     </div>
   );
 };
 
-export default SigninPage;
+export default SignupPage;

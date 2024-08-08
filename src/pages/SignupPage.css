@@ -1,4 +1,4 @@
-.signin-page {
+.signup-page {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,32 +7,32 @@
   padding: 20px;
 }
 
-.signin-title {
+.signup-title {
   font-size: 40px;
   margin-bottom: 30px;
 }
 
-.signin-form {
+.signup-form {
   display: flex;
   flex-direction: column;
   width: 400px;
 }
 
-.signin-form label {
+.signup-form label {
   margin-top: 10px;
   margin-bottom: 5px;
   font-size: 14px;
 }
 
-.signin-form input,
-.signin-form select {
+.signup-form input,
+.signup-form select {
   margin-bottom: 10px;
   padding: 15px;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.signin-form button {
+.signup-form button {
   margin-top: 20px;
   padding: 15px;
   background-color: #000;
@@ -42,11 +42,11 @@
   cursor: pointer;
 }
 
-.signin-links {
+.signup-links {
   margin-top: 20px;
 }
 
-.signin-links a {
+.signup-links a {
   color: #666;
   text-decoration: none;
   font-size: 14px;
