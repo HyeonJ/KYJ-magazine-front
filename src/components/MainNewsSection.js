@@ -7,23 +7,30 @@ const MainNewsSection = () => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
 
-  const fetchMoreData = () => {
-    setTimeout(() => {
-      const newItems = Array.from({ length: 10 }, (_, index) => ({
-        id: items.length + index + 1,
-        title: `News Title ${items.length + index + 1}`,
-        thumbnail: `https://picsum.photos/400/200?random=${
-          items.length + index + 1
-        }`,
-      }));
+  const fetchMoreData = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/createNews/list`);
+      const data = await response.json();
 
-      setItems([...items, ...newItems]);
-      setPage(page + 1);
+      console.log(data);
 
-      if (page > 5) {
+      if (data.length === 0) {
         setHasMore(false);
+      } else {
+        const newItems = data.map((article) => ({
+          id: article.id, // API 응답에 id가 포함되어 있다고 가정합니다
+          title: article.title,
+          // thumbnail: article.thumbnail
+          thumbnail: "/default_thumbnail.webp",
+        }));
+
+        setItems((prevItems) => [...prevItems, ...newItems]);
+        setPage((prevPage) => prevPage + 1);
       }
-    }, 1500);
+    } catch (error) {
+      console.error("Error fetching news:", error);
+      setHasMore(false);
+    }
   };
 
   useEffect(() => {
