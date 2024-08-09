@@ -69,6 +69,7 @@ html {
 }
 
 .news-detail-main-img-container img {
+  max-width: 640px;
   width: 100%;
 }
 

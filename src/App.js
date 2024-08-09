@@ -43,7 +43,7 @@ function App() {
           }
         />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/signin" element={<SignupPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         {/* 다른 라우트들 */}
       </Routes>
     </div>

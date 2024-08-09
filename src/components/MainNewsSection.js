@@ -22,8 +22,9 @@ const MainNewsSection = () => {
         const newItems = data.content.map((article) => ({
           id: article.createNewsNum, // API 응답에 id가 포함되어 있다고 가정합니다
           title: article.title,
-          // thumbnail: article.thumbnail
-          thumbnail: "/default_thumbnail.webp",
+          thumbnail: article.thumbnailURL
+            ? `http://localhost:8080${article.thumbnailURL}`
+            : "/default_thumbnail.webp",
         }));
 
         setItems((prevItems) => [...prevItems, ...newItems]);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NewsDetailTitleSection from "../components/NewsDetailTitleSection";
 import NewsDetailMainSection from "../components/NewsDetailMainSection";
@@ -8,29 +8,75 @@ import "../styles/NewsDetail.css";
 
 const NewsDetailPage = () => {
   let { id } = useParams();
+  const [newsData, setNewsData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // 여기서 실제로는 id를 사용해 API에서 뉴스 데이터를 가져와야 합니다.
-  // 지금은 예시 데이터를 사용합니다.
-  const newsData = {
-    title: "최후의 한발 4.9㎜차 승리… 김우진, 한국 첫 金 5개 ‘신화’",
-    author: "동아일보",
-    date: "2024년 8월 1일",
-    category: "스포츠",
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const formatter = new Intl.DateTimeFormat("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+    return formatter.format(date);
   };
+
+  useEffect(() => {
+    const fetchNewsData = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/createNews/detail/${id}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          // 날짜 형식 변환
+          const formattedData = {
+            ...data,
+            date: formatDate(data.createNewsDate),
+          };
+          setNewsData(formattedData);
+        } else if (response.status === 404) {
+          setError("뉴스를 찾을 수 없습니다.");
+        } else {
+          throw new Error("서버 오류가 발생했습니다.");
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNewsData();
+  }, [id]);
+
+  if (loading) return <div>로딩 중...</div>;
+  if (error) return <div>오류: {error}</div>;
 
   return (
     <div className="news-detail-page">
-      <NewsDetailTitleSection
-        title={newsData.title}
-        author={newsData.author}
-        date={newsData.date}
-        category={newsData.category}
-      />
-      <div className="news-detail-container">
-        <NewsDetailLeftSection />
-        <NewsDetailMainSection newsId={id} />
-        <NewsDetailRightSection />
-      </div>
+      {newsData ? (
+        <>
+          <NewsDetailTitleSection
+            title={newsData.title}
+            author={newsData.author}
+            date={newsData.date}
+            category={newsData.category}
+          />
+          <div className="news-detail-container">
+            <NewsDetailLeftSection />
+            <NewsDetailMainSection newsData={newsData} />
+            <NewsDetailRightSection />
+          </div>
+        </>
+      ) : (
+        <div>뉴스 데이터를 찾을 수 없습니다.</div>
+      )}
     </div>
   );
 };
