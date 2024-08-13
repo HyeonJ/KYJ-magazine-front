@@ -1,6 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const MainRightSection = () => {
+  const [trends, setTrends] = useState([]);
+
+  useEffect(() => {
+    const fetchTrends = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/createNews/trend/list"
+        );
+        const data = await response.json();
+        setTrends(data); // 전체 데이터 객체를 저장합니다 (id와 title 포함)
+      } catch (error) {
+        console.error("Error fetching trend data:", error);
+      }
+    };
+
+    fetchTrends();
+  }, []);
+
   const categories = [
     {
       name: "문화",
@@ -16,8 +35,6 @@ const MainRightSection = () => {
     },
     // 추가 카테고리를 여기에 넣을 수 있습니다
   ];
-
-  const trends = ["트렌드 기사1", "트렌드 기사2", "트렌드 기사3"];
 
   return (
     <div className="category-view">
@@ -38,8 +55,10 @@ const MainRightSection = () => {
       <div className="section">
         <h2>실시간 트렌드</h2>
         <ul>
-          {trends.map((trend, index) => (
-            <li key={index}>{trend}</li>
+          {trends.map((item) => (
+            <li key={item.id}>
+              <Link to={`/news/${item.createNewsNum}`}>{item.title}</Link>
+            </li>
           ))}
         </ul>
       </div>
