@@ -1,9 +1,43 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faBell, faUser } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import {
+  faSearch,
+  faBell,
+  faUser,
+  faUserCheck,
+} from "@fortawesome/free-solid-svg-icons";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Header = () => {
+  const { user, logout } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    setIsMenuOpen(false);
+  };
+
+  const handleMyPage = () => {
+    navigate("/user/mypage");
+    setIsMenuOpen(false);
+  };
+
   return (
     <header className="header">
       <div className="header-content">
@@ -28,13 +62,37 @@ const Header = () => {
         <div className="header-right">
           <FontAwesomeIcon icon={faSearch} className="header-icon" />
           <FontAwesomeIcon icon={faBell} className="header-icon" />
-          <Link to="/login">
-            <FontAwesomeIcon
-              icon={faUser}
-              className="header-icon"
-              color="black"
-            />
-          </Link>
+          {user ? (
+            <div className="user-menu" ref={menuRef}>
+              <FontAwesomeIcon
+                icon={faUserCheck}
+                className="header-icon"
+                color="black"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              />
+              {isMenuOpen && (
+                <div className="dropdown-menu">
+                  <ul>
+                    <li>{user.name || "사용자"} 님</li>
+                    <li>
+                      <button onClick={handleMyPage}>회원정보</button>
+                    </li>
+                    <li>
+                      <button onClick={handleLogout}>로그아웃</button>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link to="/login">
+              <FontAwesomeIcon
+                icon={faUser}
+                className="header-icon"
+                color="black"
+              />
+            </Link>
+          )}
         </div>
       </div>
     </header>

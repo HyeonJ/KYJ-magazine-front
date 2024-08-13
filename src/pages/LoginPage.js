@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../contexts/AuthContext";
 import "./LoginPage.css";
 
 const LoginPage = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,6 +18,13 @@ const LoginPage = () => {
         password,
       });
       console.log(response.data);
+
+      if (response.data === "아이디 또는 비밀번호가 잘못되었습니다.") {
+      } else {
+        login(response.data);
+        navigate("/");
+      }
+
       // 여기서 로그인 성공 후 처리를 할 수 있습니다.
       // 예: 토큰 저장, 리다이렉트 등
     } catch (error) {
