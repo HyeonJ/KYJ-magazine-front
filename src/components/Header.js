@@ -30,11 +30,12 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
+    navigate("/");
     setIsMenuOpen(false);
   };
 
   const handleMyPage = () => {
-    navigate("/user/mypage");
+    navigate("/mypage");
     setIsMenuOpen(false);
   };
 

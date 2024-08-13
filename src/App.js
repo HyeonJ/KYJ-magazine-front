@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import MyPage from "./pages/MyPage";
 import MainNewsSection from "./components/MainNewsSection";
 import MainLeftSection from "./components/MainLeftSection";
 import MainRightSection from "./components/MainRightSection";
@@ -46,6 +47,7 @@ function App() {
           />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/mypage" element={<MyPage />} />
           {/* 다른 라우트들 */}
         </Routes>
       </AuthProvider>
