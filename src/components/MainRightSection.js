@@ -22,15 +22,15 @@ const MainRightSection = () => {
 
   const categories = [
     {
-      name: "문화",
+      name: "생활/문화",
       articles: ["소기사1", "소기사2"],
     },
     {
-      name: "사회",
+      name: "정치/사회",
       articles: ["소기사1", "소기사2"],
     },
     {
-      name: "IT 과학",
+      name: "IT과학",
       articles: ["소기사1", "소기사2"],
     },
     // 추가 카테고리를 여기에 넣을 수 있습니다

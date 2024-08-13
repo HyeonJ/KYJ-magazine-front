@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
-  faBell,
   faUser,
   faUserCheck,
 } from "@fortawesome/free-solid-svg-icons";
@@ -49,10 +48,10 @@ const Header = () => {
           <nav className="header-nav">
             <ul>
               <li>
-                <a href="/">문화</a>
+                <a href="/">생활/문화</a>
               </li>
               <li>
-                <a href="/about">사회</a>
+                <a href="/about">정치/사회</a>
               </li>
               <li>
                 <a href="/contact">IT과학</a>
@@ -62,7 +61,6 @@ const Header = () => {
         </div>
         <div className="header-right">
           <FontAwesomeIcon icon={faSearch} className="header-icon" />
-          <FontAwesomeIcon icon={faBell} className="header-icon" />
           {user ? (
             <div className="user-menu" ref={menuRef}>
               <FontAwesomeIcon

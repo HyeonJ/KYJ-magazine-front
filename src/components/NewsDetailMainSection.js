@@ -42,7 +42,7 @@ const NewsDetailMainSection = ({ newsData }) => {
       <div className="reaction-icons">
         <div className="reaction-container">
           <button className="reaction-button">
-            <FontAwesomeIcon icon={faFaceSmile} />
+            <FontAwesomeIcon icon={faFaceSmile} size="5x" />
           </button>
           <div className="reaction-info">
             <span className="reaction-text">좋아요</span>

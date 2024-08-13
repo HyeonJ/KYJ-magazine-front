@@ -55,6 +55,25 @@ const NewsDetailPage = () => {
     fetchNewsData();
   }, [id]);
 
+  useEffect(() => {
+    const updateJoind = async () => {
+      if (newsData) {
+        try {
+          const response = await fetch(
+            `http://localhost:8080/api/createNews/joind/update/${id}`
+          );
+          if (!response.ok) {
+            console.error("Failed to update joind");
+          }
+        } catch (err) {
+          console.error("Error updating joind:", err);
+        }
+      }
+    };
+
+    updateJoind();
+  }, [newsData, id]);
+
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>오류: {error}</div>;
 
