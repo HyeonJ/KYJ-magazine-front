@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import API_ENDPOINTS from "../config/api";
 
 const MainRightSection = () => {
   const [trends, setTrends] = useState([]);
@@ -7,9 +8,7 @@ const MainRightSection = () => {
   useEffect(() => {
     const fetchTrends = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8080/api/createNews/trend/list"
-        );
+        const response = await fetch(`${API_ENDPOINTS.TREND_NEWS_LIST}`);
         const data = await response.json();
         setTrends(data); // 전체 데이터 객체를 저장합니다 (id와 title 포함)
       } catch (error) {

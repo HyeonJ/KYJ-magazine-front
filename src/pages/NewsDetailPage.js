@@ -4,6 +4,7 @@ import NewsDetailTitleSection from "../components/NewsDetailTitleSection";
 import NewsDetailMainSection from "../components/NewsDetailMainSection";
 import NewsDetailLeftSection from "../components/NewsDetailLeftSection";
 import NewsDetailRightSection from "../components/NewsDetailRightSection";
+import API_ENDPOINTS from "../config/api";
 import "../styles/NewsDetail.css";
 
 const NewsDetailPage = () => {
@@ -28,9 +29,7 @@ const NewsDetailPage = () => {
   useEffect(() => {
     const fetchNewsData = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8080/api/createNews/detail/${id}`
-        );
+        const response = await fetch(`${API_ENDPOINTS.NEWS_DETAIL}/${id}`);
         if (response.ok) {
           const data = await response.json();
           console.log(data);
@@ -60,7 +59,7 @@ const NewsDetailPage = () => {
       if (newsData) {
         try {
           const response = await fetch(
-            `http://localhost:8080/api/createNews/joind/update/${id}`
+            `${API_ENDPOINTS.UPDATE_NEWS_JOIND}/${id}`
           );
           if (!response.ok) {
             console.error("Failed to update joind");

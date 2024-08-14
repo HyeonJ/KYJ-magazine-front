@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFaceSmile, faFaceSadTear } from "@fortawesome/free-solid-svg-icons";
+import API_ENDPOINTS from "../config/api";
 
 const NewsDetailMainSection = ({ newsData }) => {
   // 여기서 newsId를 사용하여 실제 뉴스 데이터를 가져오는 로직을 구현할 수 있습니다.
@@ -13,7 +14,7 @@ const NewsDetailMainSection = ({ newsData }) => {
   useEffect(() => {
     if (newsData.thumbnailData) {
       // setThumbnailSrc(`data:image/jpeg;base64,${newsData.thumbnailData}`);
-      setThumbnailSrc(`http://localhost:8080${newsData.thumbnailURL}`);
+      setThumbnailSrc(`${API_ENDPOINTS.BASE_URL}${newsData.thumbnailURL}`);
     }
   }, [newsData.thumbnailData]);
 

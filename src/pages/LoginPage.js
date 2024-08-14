@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
+import API_ENDPOINTS from "../config/api";
 import "./LoginPage.css";
 
 const LoginPage = () => {
@@ -13,7 +14,7 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/signin", {
+      const response = await axios.post(`${API_ENDPOINTS.SIGNIN}`, {
         id,
         password,
       });

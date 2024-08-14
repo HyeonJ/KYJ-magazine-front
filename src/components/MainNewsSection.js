@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import API_ENDPOINTS from "../config/api";
 import { Link } from "react-router-dom";
 
 const MainNewsSection = ({ category }) => {
@@ -11,9 +12,9 @@ const MainNewsSection = ({ category }) => {
     try {
       let url;
       if (["culture", "society", "science"].includes(category)) {
-        url = `http://localhost:8080/api/createNews/list/${category}?page=${page}`;
+        url = `${API_ENDPOINTS.NEWS_LIST}/${category}?page=${page}`;
       } else {
-        url = `http://localhost:8080/api/createNews/list?page=${page}`;
+        url = `${API_ENDPOINTS.NEWS_LIST}?page=${page}`;
       }
 
       const response = await fetch(url);
@@ -28,7 +29,7 @@ const MainNewsSection = ({ category }) => {
           id: article.createNewsNum,
           title: article.title,
           thumbnail: article.thumbnailURL
-            ? `http://localhost:8080${article.thumbnailURL}`
+            ? `${API_ENDPOINTS.BASE_URL}${article.thumbnailURL}`
             : "/default_thumbnail.webp",
         }));
 

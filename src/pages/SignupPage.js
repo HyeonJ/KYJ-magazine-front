@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import API_ENDPOINTS from "../config/api";
 import "./SignupPage.css";
 
 const SignupPage = () => {
@@ -87,7 +88,7 @@ const SignupPage = () => {
   const checkIdAvailability = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/user/validation/id?id=${formData.id}`
+        `${API_ENDPOINTS.ID_VALIDATION}?id=${formData.id}`
       );
 
       const data = await response.json();
@@ -102,7 +103,7 @@ const SignupPage = () => {
   const checkEmailAvailability = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/user/validation/email?email=${formData.email}`
+        `${API_ENDPOINTS.EMAIL_VALIDATION}?email=${formData.email}`
       );
       const data = await response.json();
       if (data.result === "중복") setEmailAvailable(false);
@@ -135,7 +136,7 @@ const SignupPage = () => {
     delete formDataToSend.passwordConfirm;
 
     try {
-      const response = await fetch("http://localhost:8080/signup", {
+      const response = await fetch(`${API_ENDPOINTS.SIGNUP}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
