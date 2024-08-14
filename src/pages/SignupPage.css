@@ -31,7 +31,6 @@
 }
 
 .signup-form button {
-  margin-top: 20px;
   padding: 15px;
   background-color: #000;
   color: white;
@@ -97,6 +96,40 @@ legend {
   cursor: pointer;
 }
 
+/* 새로운 스타일 */
+.input-group {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.input-group input {
+  flex-grow: 1;
+  margin-bottom: 0;
+}
+
+.check-button {
+  margin-left: 10px;
+  padding: 0 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.available {
+  color: green;
+  font-size: 14px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+.unavailable {
+  color: red;
+  font-size: 14px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 600px) {
   .signup-form {
@@ -105,5 +138,14 @@ legend {
 
   .interest-options div {
     flex: 1 0 50%;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .check-button {
+    margin-left: 0;
+    margin-top: 10px;
   }
 }

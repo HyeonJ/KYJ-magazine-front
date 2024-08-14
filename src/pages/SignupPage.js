@@ -6,6 +6,7 @@ const SignupPage = () => {
   const [formData, setFormData] = useState({
     id: "",
     password: "",
+    passwordConfirm: "",
     name: "",
     email: "",
     age: "",
@@ -13,6 +14,10 @@ const SignupPage = () => {
     mainInterest: [],
     subInterest: [],
   });
+
+  const [idAvailable, setIdAvailable] = useState(null);
+  const [emailAvailable, setEmailAvailable] = useState(null);
+  const [passwordMatch, setPasswordMatch] = useState(null);
 
   const interestCategories = {
     "생활/문화": ["영화/드라마", "음악", "미술", "문학", "공연", "전통문화"],
@@ -28,6 +33,22 @@ const SignupPage = () => {
       ...prevState,
       [name]: value,
     }));
+
+    // Reset availability states when input changes
+    if (name === "id") setIdAvailable(null);
+    if (name === "email") setEmailAvailable(null);
+
+    // Check password match when either password or passwordConfirm changes
+    if (name === "password" || name === "passwordConfirm") {
+      const otherField = name === "password" ? "passwordConfirm" : "password";
+      const otherValue = formData[otherField];
+
+      if (value === "" && otherValue === "") {
+        setPasswordMatch(null);
+      } else {
+        setPasswordMatch(value === otherValue);
+      }
+    }
   };
 
   const splitInterests = (interest) => {
@@ -63,14 +84,56 @@ const SignupPage = () => {
     }));
   };
 
+  const checkIdAvailability = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/user/validation/id?id=${formData.id}`
+      );
+
+      const data = await response.json();
+      if (data.result === "중복") setIdAvailable(false);
+      else setIdAvailable(true);
+    } catch (error) {
+      console.error("ID 중복 확인 중 오류 발생:", error);
+      alert("ID 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
+  };
+
+  const checkEmailAvailability = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/user/validation/email?email=${formData.email}`
+      );
+      const data = await response.json();
+      if (data.result === "중복") setEmailAvailable(false);
+      else setEmailAvailable(true);
+    } catch (error) {
+      console.error("이메일 중복 확인 중 오류 발생:", error);
+      alert("이메일 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
+  };
+
   const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (idAvailable !== true || emailAvailable !== true) {
+      alert("ID와 이메일 중복 확인을 먼저 해주세요.");
+      return;
+    }
+
+    if (!passwordMatch) {
+      alert("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
     const formDataToSend = {
       ...formData,
       mainInterest: formData.mainInterest.join(","),
       subInterest: formData.subInterest.join(","),
     };
 
-    e.preventDefault();
+    // Remove passwordConfirm from the data to be sent
+    delete formDataToSend.passwordConfirm;
+
     try {
       const response = await fetch("http://localhost:8080/signup", {
         method: "POST",
@@ -81,16 +144,13 @@ const SignupPage = () => {
       });
 
       if (response.ok) {
-        // 성공적으로 회원가입이 완료된 경우
         alert("회원가입이 완료되었습니다.");
-        navigate("/login"); // 로그인 페이지로 리다이렉트
+        navigate("/login");
       } else {
-        // 서버에서 에러 응답을 받은 경우
         const errorData = await response.json();
         alert(`회원가입 실패: ${errorData.message}`);
       }
     } catch (error) {
-      // 네트워크 오류 등의 예외가 발생한 경우
       console.error("회원가입 중 오류 발생:", error);
       alert("회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.");
     }
@@ -102,13 +162,27 @@ const SignupPage = () => {
       <h2>회원가입</h2>
       <form className="signup-form" onSubmit={handleSubmit}>
         <label htmlFor="id">아이디</label>
-        <input
-          type="text"
-          id="id"
-          name="id"
-          required
-          onChange={handleInputChange}
-        />
+        <div className="input-group">
+          <input
+            type="text"
+            id="id"
+            name="id"
+            required
+            onChange={handleInputChange}
+          />
+          <button
+            type="button"
+            onClick={checkIdAvailability}
+            className="check-button"
+          >
+            중복확인
+          </button>
+        </div>
+        {idAvailable !== null && (
+          <p className={idAvailable ? "available" : "unavailable"}>
+            {idAvailable ? "사용 가능한 ID입니다." : "이미 사용 중인 ID입니다."}
+          </p>
+        )}
 
         <label htmlFor="password">비밀번호</label>
         <input
@@ -118,6 +192,22 @@ const SignupPage = () => {
           required
           onChange={handleInputChange}
         />
+
+        <label htmlFor="passwordConfirm">비밀번호 확인</label>
+        <input
+          type="password"
+          id="passwordConfirm"
+          name="passwordConfirm"
+          required
+          onChange={handleInputChange}
+        />
+        {passwordMatch !== null && (
+          <p className={passwordMatch ? "available" : "unavailable"}>
+            {passwordMatch
+              ? "비밀번호가 일치합니다."
+              : "비밀번호가 일치하지 않습니다."}
+          </p>
+        )}
 
         <label htmlFor="name">이름</label>
         <input
@@ -129,13 +219,29 @@ const SignupPage = () => {
         />
 
         <label htmlFor="email">이메일주소</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          onChange={handleInputChange}
-        />
+        <div className="input-group">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            onChange={handleInputChange}
+          />
+          <button
+            type="button"
+            onClick={checkEmailAvailability}
+            className="check-button"
+          >
+            중복확인
+          </button>
+        </div>
+        {emailAvailable !== null && (
+          <p className={emailAvailable ? "available" : "unavailable"}>
+            {emailAvailable
+              ? "사용 가능한 이메일입니다."
+              : "이미 사용 중인 이메일입니다."}
+          </p>
+        )}
 
         <label htmlFor="age">나이</label>
         <input
@@ -155,7 +261,6 @@ const SignupPage = () => {
 
         <fieldset>
           <legend>관심사</legend>
-
           {Object.entries(interestCategories).map(([category, interests]) => (
             <div key={category} className="interest-category">
               <h3>{category}</h3>

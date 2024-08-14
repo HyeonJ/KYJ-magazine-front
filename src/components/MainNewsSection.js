@@ -2,16 +2,21 @@ import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 
-const MainNewsSection = () => {
+const MainNewsSection = ({ category }) => {
   const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
 
   const fetchMoreData = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/createNews/list?page=${page}`
-      );
+      let url;
+      if (["culture", "society", "science"].includes(category)) {
+        url = `http://localhost:8080/api/createNews/list/${category}?page=${page}`;
+      } else {
+        url = `http://localhost:8080/api/createNews/list?page=${page}`;
+      }
+
+      const response = await fetch(url);
       const data = await response.json();
 
       console.log(data);
@@ -20,7 +25,7 @@ const MainNewsSection = () => {
         setHasMore(false);
       } else {
         const newItems = data.content.map((article) => ({
-          id: article.createNewsNum, // API 응답에 id가 포함되어 있다고 가정합니다
+          id: article.createNewsNum,
           title: article.title,
           thumbnail: article.thumbnailURL
             ? `http://localhost:8080${article.thumbnailURL}`
@@ -37,8 +42,11 @@ const MainNewsSection = () => {
   };
 
   useEffect(() => {
+    setItems([]); // 카테고리가 변경될 때 items 초기화
+    setPage(0); // 페이지 번호 초기화
+    setHasMore(true); // hasMore 초기화
     fetchMoreData();
-  }, []);
+  }, [category]); // category가 변경될 때마다 useEffect 실행
 
   return (
     <div

@@ -48,13 +48,13 @@ const Header = () => {
           <nav className="header-nav">
             <ul>
               <li>
-                <a href="/">생활/문화</a>
+                <a href="/news/category/culture">생활/문화</a>
               </li>
               <li>
-                <a href="/about">정치/사회</a>
+                <a href="/news/category/society">정치/사회</a>
               </li>
               <li>
-                <a href="/contact">IT과학</a>
+                <a href="/news/category/science">IT과학</a>
               </li>
             </ul>
           </nav>
