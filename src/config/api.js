@@ -9,6 +9,11 @@ export const API_ENDPOINTS = {
   UPDATE_NEWS_JOIND: `${API_BASE_URL}/api/createNews/joind/update`,
   ID_VALIDATION: `${API_BASE_URL}/api/user/validation/id`,
   EMAIL_VALIDATION: `${API_BASE_URL}/api/user/validation/email`,
+  GET_LIKE: `${API_BASE_URL}/api/createNews/like/get`,
+  GET_DISLIKE: `${API_BASE_URL}/api/createNews/dislike/get`,
+  UPDATE_LIKE: `${API_BASE_URL}/api/createNews/like/update`,
+  UPDATE_DISLIKE: `${API_BASE_URL}/api/createNews/dislike/update`,
+  MYPAGE: `${API_BASE_URL}/updateInterests`,
   SIGNIN: `${API_BASE_URL}/signin`,
   SIGNUP: `${API_BASE_URL}/signup`,
 };

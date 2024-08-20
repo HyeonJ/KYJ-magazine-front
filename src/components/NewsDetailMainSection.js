@@ -4,25 +4,71 @@ import { faFaceSmile, faFaceSadTear } from "@fortawesome/free-solid-svg-icons";
 import API_ENDPOINTS from "../config/api";
 
 const NewsDetailMainSection = ({ newsData }) => {
-  // 여기서 newsId를 사용하여 실제 뉴스 데이터를 가져오는 로직을 구현할 수 있습니다.
-  // 예를 들어, useEffect와 fetch를 사용하여 API에서 데이터를 가져올 수 있습니다.
-
-  // 기존 코드는 그대로 유지
   const [newComment, setNewComment] = useState("");
   const [thumbnailSrc, setThumbnailSrc] = useState("/default_thumbnail.webp");
+  const [likeCount, setLikeCount] = useState(0);
+  const [dislikeCount, setDislikeCount] = useState(0);
+
+  const fetchReactionCounts = async () => {
+    try {
+      const likeResponse = await fetch(
+        `${API_ENDPOINTS.GET_LIKE}/${newsData.createNewsNum}`
+      );
+      const dislikeResponse = await fetch(
+        `${API_ENDPOINTS.GET_DISLIKE}/${newsData.createNewsNum}`
+      );
+
+      if (likeResponse.ok && dislikeResponse.ok) {
+        const likeData = await likeResponse.json();
+        const dislikeData = await dislikeResponse.json();
+
+        setLikeCount(likeData.count);
+        setDislikeCount(dislikeData.count);
+      } else {
+        console.error("Failed to fetch reaction counts");
+      }
+    } catch (error) {
+      console.error("Error fetching reaction counts:", error);
+    }
+  };
 
   useEffect(() => {
     if (newsData.thumbnailData) {
-      // setThumbnailSrc(`data:image/jpeg;base64,${newsData.thumbnailData}`);
       setThumbnailSrc(`${API_ENDPOINTS.BASE_URL}${newsData.thumbnailURL}`);
     }
-  }, [newsData.thumbnailData]);
+
+    fetchReactionCounts();
+  }, [newsData.thumbnailData, newsData.createNewsNum]);
+
+  const handleReaction = async (type) => {
+    const endpoint =
+      type === "like"
+        ? API_ENDPOINTS.UPDATE_LIKE
+        : API_ENDPOINTS.UPDATE_DISLIKE;
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${endpoint}/${newsData.createNewsNum}`, {
+        method: "POST", // or 'PUT', depending on your API
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        await fetchReactionCounts(); // Refetch counts after successful update
+      } else {
+        console.error(`Failed to update ${type}`);
+      }
+    } catch (error) {
+      console.error(`Error updating ${type}:`, error);
+    }
+  };
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    // 여기에 댓글 제출 로직 구현
     console.log("제출된 댓글:", newComment);
-    setNewComment(""); // 입력 필드 초기화
+    setNewComment("");
   };
 
   return (
@@ -32,7 +78,7 @@ const NewsDetailMainSection = ({ newsData }) => {
           className="news-detail-main-img"
           src={thumbnailSrc}
           alt="뉴스 썸네일"
-        ></img>
+        />
       </div>
 
       <h2>뉴스 상세 내용</h2>
@@ -42,21 +88,27 @@ const NewsDetailMainSection = ({ newsData }) => {
 
       <div className="reaction-icons">
         <div className="reaction-container">
-          <button className="reaction-button">
-            <FontAwesomeIcon icon={faFaceSmile} size="5x" />
+          <button
+            className="reaction-button"
+            onClick={() => handleReaction("like")}
+          >
+            <FontAwesomeIcon icon={faFaceSmile} />
           </button>
           <div className="reaction-info">
             <span className="reaction-text">좋아요</span>
-            <span className="count">7</span>
+            <span className="count">{likeCount}</span>
           </div>
         </div>
         <div className="reaction-container">
-          <button className="reaction-button">
+          <button
+            className="reaction-button"
+            onClick={() => handleReaction("dislike")}
+          >
             <FontAwesomeIcon icon={faFaceSadTear} />
           </button>
           <div className="reaction-info">
             <span className="reaction-text">싫어요</span>
-            <span className="count">0</span>
+            <span className="count">{dislikeCount}</span>
           </div>
         </div>
       </div>
@@ -76,7 +128,6 @@ const NewsDetailMainSection = ({ newsData }) => {
         </form>
 
         <h4>추천 받은 댓글</h4>
-        {/* 여기에 기존 댓글들을 렌더링하는 로직 추가 */}
         <div className="comment">
           <p>
             <strong>포청천</strong> 2024-08-05 06:53:34
@@ -90,7 +141,6 @@ const NewsDetailMainSection = ({ newsData }) => {
             <span>👎 0</span>
           </div>
         </div>
-        {/* 다른 댓글들도 비슷한 구조로 추가 */}
       </div>
 
       <button className="view-all-comments">전체 댓글 보기</button>

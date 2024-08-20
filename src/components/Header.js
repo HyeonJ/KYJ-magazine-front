@@ -28,6 +28,7 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
+    localStorage.removeItem("token");
     logout();
     navigate("/");
     setIsMenuOpen(false);
