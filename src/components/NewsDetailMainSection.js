@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFaceSmile, faFaceSadTear } from "@fortawesome/free-solid-svg-icons";
 import API_ENDPOINTS from "../config/api";
+import Swal from "sweetalert2";
 
 const NewsDetailMainSection = ({ newsData }) => {
   const [newComment, setNewComment] = useState("");
@@ -41,12 +42,23 @@ const NewsDetailMainSection = ({ newsData }) => {
   }, [newsData.thumbnailData, newsData.createNewsNum]);
 
   const handleReaction = async (type) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      Swal.fire({
+        title: "로그인이 필요합니다",
+        text: "좋아요/싫어요 기능을 사용하려면 로그인해 주세요.",
+        icon: "warning",
+        confirmButtonText: "확인",
+      });
+      return; // 토큰이 없으면 함수 실행 중단
+    }
+
     const endpoint =
       type === "like"
         ? API_ENDPOINTS.UPDATE_LIKE
         : API_ENDPOINTS.UPDATE_DISLIKE;
     try {
-      const token = localStorage.getItem("token");
       const response = await fetch(`${endpoint}/${newsData.createNewsNum}`, {
         method: "POST", // or 'PUT', depending on your API
         headers: {
