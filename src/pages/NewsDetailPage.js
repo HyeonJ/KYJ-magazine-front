@@ -87,7 +87,7 @@ const NewsDetailPage = () => {
             category={newsData.category}
           />
           <div className="news-detail-container">
-            <NewsDetailLeftSection />
+            <NewsDetailLeftSection newsData={newsData} />
             <NewsDetailMainSection newsData={newsData} />
             <NewsDetailRightSection />
           </div>

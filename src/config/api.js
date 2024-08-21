@@ -14,6 +14,7 @@ export const API_ENDPOINTS = {
   GET_DISLIKE: `${API_BASE_URL}/api/createNews/dislike/get`,
   UPDATE_LIKE: `${API_BASE_URL}/api/createNews/like/update`,
   UPDATE_DISLIKE: `${API_BASE_URL}/api/createNews/dislike/update`,
+  RELATED_NEWS_LIST: `${API_BASE_URL}/api/createNews/related/list`,
   MYPAGE: `${API_BASE_URL}/updateInterests`,
   SIGNIN: `${API_BASE_URL}/signin`,
   SIGNUP: `${API_BASE_URL}/signup`,
