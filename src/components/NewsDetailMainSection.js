@@ -127,7 +127,7 @@ const NewsDetailMainSection = ({ newsData }) => {
 
       <hr className="comment-divider" />
 
-      <div className="comments-section">
+      {/* <div className="comments-section">
         <h3>댓글 7</h3>
         <form onSubmit={handleCommentSubmit}>
           <input
@@ -155,7 +155,7 @@ const NewsDetailMainSection = ({ newsData }) => {
         </div>
       </div>
 
-      <button className="view-all-comments">전체 댓글 보기</button>
+      <button className="view-all-comments">전체 댓글 보기</button> */}
     </div>
   );
 };

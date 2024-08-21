@@ -63,7 +63,7 @@ const MainNewsSection = ({ category }) => {
         dataLength={items.length}
         next={fetchMoreData}
         hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
+        loader={<h4></h4>}
         scrollableTarget="scrollableDiv"
         endMessage={
           <p style={{ textAlign: "center" }}>

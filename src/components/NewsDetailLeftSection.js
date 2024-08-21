@@ -29,7 +29,7 @@ const NewsDetailLeftSection = ({ newsData }) => {
 
   const renderContent = () => {
     if (loading) {
-      return <div>로딩 중...</div>;
+      return <div></div>;
     }
     if (error) {
       return <div>{error}</div>;
