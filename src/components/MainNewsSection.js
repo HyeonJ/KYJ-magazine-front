@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import API_ENDPOINTS from "../config/api";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const MainNewsSection = ({ category }) => {
   const [items, setItems] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const query = searchParams.get("query");
 
   const fetchMoreData = async () => {
     try {
       let url;
-      if (["culture", "society", "science"].includes(category)) {
+      if (location.pathname === "/news/search") {
+        url = `${API_ENDPOINTS.NEWS_LIST_SEARCH}?query=${query}&page=${page}`;
+      } else if (["culture", "society", "science"].includes(category)) {
         url = `${API_ENDPOINTS.NEWS_LIST}/${category}?page=${page}`;
       } else {
         url = `${API_ENDPOINTS.NEWS_LIST}?page=${page}`;
@@ -47,7 +52,7 @@ const MainNewsSection = ({ category }) => {
     setPage(0); // 페이지 번호 초기화
     setHasMore(true); // hasMore 초기화
     fetchMoreData();
-  }, [category]); // category가 변경될 때마다 useEffect 실행
+  }, [category, location.pathname, query]); // category, pathname, query가 변경될 때마다 useEffect 실행
 
   return (
     <div

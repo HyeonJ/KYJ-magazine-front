@@ -41,6 +41,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainContent />} />
           <Route path="/news/category/:category" element={<MainContent />} />
+          <Route path="/news/search" element={<MainContent />} />
           <Route
             path="/news/:id"
             element={

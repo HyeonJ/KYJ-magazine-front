@@ -4,6 +4,7 @@ const API_BASE_URL =
 export const API_ENDPOINTS = {
   BASE_URL: `${API_BASE_URL}`,
   NEWS_LIST: `${API_BASE_URL}/api/createNews/list`,
+  NEWS_LIST_SEARCH: `${API_BASE_URL}/api/createNews/list/search`,
   NEWS_DETAIL: `${API_BASE_URL}/api/createNews/detail`,
   TREND_NEWS_LIST: `${API_BASE_URL}/api/createNews/trend/list`,
   UPDATE_NEWS_JOIND: `${API_BASE_URL}/api/createNews/joind/update`,
