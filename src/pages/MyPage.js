@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import API_ENDPOINTS from "../config/api";
+import Swal from "sweetalert2";
 import "./MyPage.css";
 
 const MyPage = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -48,7 +51,16 @@ const MyPage = () => {
       });
     } catch (error) {
       console.error("Error fetching user info:", error);
-      alert("사용자 정보를 가져오는데 실패했습니다.");
+      Swal.fire({
+        title: "오류",
+        text: "사용자 정보를 가져오는데 실패했습니다.",
+        icon: "error",
+        confirmButtonText: "확인",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/");
+        }
+      });
     }
   };
 
@@ -108,10 +120,24 @@ const MyPage = () => {
         throw new Error("Failed to update profile");
       }
 
-      alert("사용자 정보가 업데이트되었습니다.");
+      Swal.fire({
+        title: "성공",
+        text: "사용자 정보가 업데이트되었습니다.",
+        icon: "success",
+        confirmButtonText: "확인",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/");
+        }
+      });
     } catch (error) {
       console.error("프로필 업데이트 오류:", error);
-      alert("사용자 정보 수정에 실패했습니다.");
+      Swal.fire({
+        title: "오류",
+        text: "사용자 정보 수정에 실패했습니다.",
+        icon: "error",
+        confirmButtonText: "확인",
+      });
     }
   };
 
