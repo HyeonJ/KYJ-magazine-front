@@ -9,6 +9,7 @@ const NewsDetailMainSection = ({ newsData }) => {
   const [thumbnailSrc, setThumbnailSrc] = useState("/default_thumbnail.webp");
   const [likeCount, setLikeCount] = useState(0);
   const [dislikeCount, setDislikeCount] = useState(0);
+  const [userReaction, setUserReaction] = useState(0);
 
   const fetchReactionCounts = async () => {
     try {
@@ -33,12 +34,38 @@ const NewsDetailMainSection = ({ newsData }) => {
     }
   };
 
+  const fetchUserReaction = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const response = await fetch(
+        `${API_ENDPOINTS.CHECK_LIKE}/${newsData.createNewsNum}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setUserReaction(data.result);
+      } else {
+        console.error("Failed to fetch user reaction");
+      }
+    } catch (error) {
+      console.error("Error fetching user reaction:", error);
+    }
+  };
+
   useEffect(() => {
     if (newsData.thumbnailData) {
       setThumbnailSrc(`${API_ENDPOINTS.BASE_URL}${newsData.thumbnailURL}`);
     }
 
     fetchReactionCounts();
+    fetchUserReaction();
   }, [newsData.thumbnailData, newsData.createNewsNum]);
 
   const handleReaction = async (type) => {
@@ -51,7 +78,7 @@ const NewsDetailMainSection = ({ newsData }) => {
         icon: "warning",
         confirmButtonText: "확인",
       });
-      return; // 토큰이 없으면 함수 실행 중단
+      return;
     }
 
     const endpoint =
@@ -60,7 +87,7 @@ const NewsDetailMainSection = ({ newsData }) => {
         : API_ENDPOINTS.UPDATE_DISLIKE;
     try {
       const response = await fetch(`${endpoint}/${newsData.createNewsNum}`, {
-        method: "POST", // or 'PUT', depending on your API
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -68,7 +95,8 @@ const NewsDetailMainSection = ({ newsData }) => {
       });
 
       if (response.ok) {
-        await fetchReactionCounts(); // Refetch counts after successful update
+        await fetchReactionCounts();
+        await fetchUserReaction();
       } else {
         console.error(`Failed to update ${type}`);
       }
@@ -81,6 +109,14 @@ const NewsDetailMainSection = ({ newsData }) => {
     e.preventDefault();
     console.log("제출된 댓글:", newComment);
     setNewComment("");
+  };
+
+  const getLikeIconStyle = () => {
+    return userReaction === 1 ? { color: "skyblue" } : {};
+  };
+
+  const getDislikeIconStyle = () => {
+    return userReaction === 2 ? { color: "orangered" } : {};
   };
 
   return (
@@ -104,7 +140,7 @@ const NewsDetailMainSection = ({ newsData }) => {
             className="reaction-button"
             onClick={() => handleReaction("like")}
           >
-            <FontAwesomeIcon icon={faFaceSmile} />
+            <FontAwesomeIcon icon={faFaceSmile} style={getLikeIconStyle()} />
           </button>
           <div className="reaction-info">
             <span className="reaction-text">좋아요</span>
@@ -116,7 +152,10 @@ const NewsDetailMainSection = ({ newsData }) => {
             className="reaction-button"
             onClick={() => handleReaction("dislike")}
           >
-            <FontAwesomeIcon icon={faFaceSadTear} />
+            <FontAwesomeIcon
+              icon={faFaceSadTear}
+              style={getDislikeIconStyle()}
+            />
           </button>
           <div className="reaction-info">
             <span className="reaction-text">싫어요</span>
@@ -127,35 +166,7 @@ const NewsDetailMainSection = ({ newsData }) => {
 
       <hr className="comment-divider" />
 
-      {/* <div className="comments-section">
-        <h3>댓글 7</h3>
-        <form onSubmit={handleCommentSubmit}>
-          <input
-            type="text"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            placeholder="댓글을 입력해 주세요"
-          />
-          <button type="submit">등록</button>
-        </form>
-
-        <h4>추천 받은 댓글</h4>
-        <div className="comment">
-          <p>
-            <strong>포청천</strong> 2024-08-05 06:53:34
-          </p>
-          <p>
-            대한민국은 위대하다! 무더위를 통고 선전하는 우리 선수들 모두
-            화이팅!!
-          </p>
-          <div className="comment-reactions">
-            <span>👍 18</span>
-            <span>👎 0</span>
-          </div>
-        </div>
-      </div>
-
-      <button className="view-all-comments">전체 댓글 보기</button> */}
+      {/* 댓글 섹션 (주석 처리된 부분) */}
     </div>
   );
 };

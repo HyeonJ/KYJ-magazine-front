@@ -6,15 +6,19 @@
   background: #f3f2ef;
 }
 
+.infinite-scroll-component {
+  margin-top: 10px;
+}
+
 .personal-view-wrapper {
-  margin: 10px;
+  margin: 20px 10px;
   background: white;
   border: 1px solid #dcdbd9;
   border-radius: 10px;
 }
 
 .category-view-wrapper {
-  margin: 10px;
+  margin: 20px 10px;
   background: white;
   border: 1px solid #dcdbd9;
   border-radius: 10px;

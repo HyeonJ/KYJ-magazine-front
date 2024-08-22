@@ -4,36 +4,36 @@ import API_ENDPOINTS from "../config/api";
 
 const MainRightSection = () => {
   const [trends, setTrends] = useState([]);
+  const [categoryNews, setCategoryNews] = useState({});
 
   useEffect(() => {
     const fetchTrends = async () => {
       try {
         const response = await fetch(`${API_ENDPOINTS.TREND_NEWS_LIST}`);
         const data = await response.json();
-        setTrends(data); // 전체 데이터 객체를 저장합니다 (id와 title 포함)
+        setTrends(data);
       } catch (error) {
         console.error("Error fetching trend data:", error);
       }
     };
 
+    const fetchCategoryNews = async () => {
+      try {
+        const response = await fetch(
+          `${API_ENDPOINTS.CATEGORY_RANKING_NEWS_LIST}`
+        );
+        const data = await response.json();
+        setCategoryNews(data);
+      } catch (error) {
+        console.error("Error fetching category news data:", error);
+      }
+    };
+
     fetchTrends();
+    fetchCategoryNews();
   }, []);
 
-  const categories = [
-    {
-      name: "생활/문화",
-      articles: ["소기사1", "소기사2"],
-    },
-    {
-      name: "정치/사회",
-      articles: ["소기사1", "소기사2"],
-    },
-    {
-      name: "IT과학",
-      articles: ["소기사1", "소기사2"],
-    },
-    // 추가 카테고리를 여기에 넣을 수 있습니다
-  ];
+  const categories = ["생활/문화", "정치/사회", "IT과학"];
 
   return (
     <div className="category-view">
@@ -41,10 +41,12 @@ const MainRightSection = () => {
         <h2>카테고리별 랭킹</h2>
         {categories.map((category, index) => (
           <div key={index} className="category">
-            <h3>{category.name}</h3>
+            <h3>{category}</h3>
             <ul>
-              {category.articles.map((article, articleIndex) => (
-                <li key={articleIndex}>{article}</li>
+              {categoryNews[category]?.map((item) => (
+                <li key={item.createNewsNum}>
+                  <Link to={`/news/${item.createNewsNum}`}>{item.title}</Link>
+                </li>
               ))}
             </ul>
           </div>
