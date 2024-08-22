@@ -159,7 +159,9 @@ const SignupPage = () => {
 
   return (
     <div className="signup-page">
-      <h1 className="signup-title">KYJ Magazine</h1>
+      <a href="/">
+        <h1 className="signup-title">KYJ Magazine</h1>
+      </a>
       <h2>회원가입</h2>
       <form className="signup-form" onSubmit={handleSubmit}>
         <label htmlFor="id">아이디</label>

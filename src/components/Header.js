@@ -92,35 +92,64 @@ const Header = () => {
     }
   };
 
+  const isActiveCategory = (category) => {
+    return location.pathname === `/news/category/${category}` ? "active" : "";
+  };
+
   return (
     <header className={`header ${isSearchOpen ? "search-open" : ""}`}>
       <div className="header-content">
         <div className="header-left">
-          <h1>
-            <a href="/">KYJ Magazine</a>
-          </h1>
+          <a href="/">
+            <img className="logo-img" src="/KYJ_logo.png" alt="KYJ Magazine" />
+          </a>
+        </div>
+        <div className="header-center">
+          <div className="search-bar" ref={searchRef}>
+            <form onSubmit={handleSearch}>
+              <input
+                type="text"
+                placeholder="궁금하신 뉴스를 검색해보세요."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <button type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+                </svg>
+              </button>
+            </form>
+          </div>
+        </div>
+        <div className="header-right-wrapper">
           <nav className="header-nav">
             <ul>
               <li>
-                <a href="/news/category/culture">생활/문화</a>
+                <a
+                  href="/news/category/culture"
+                  className={isActiveCategory("culture")}
+                >
+                  생활/문화
+                </a>
               </li>
               <li>
-                <a href="/news/category/society">정치/사회</a>
+                <a
+                  href="/news/category/society"
+                  className={isActiveCategory("society")}
+                >
+                  정치/사회
+                </a>
               </li>
               <li>
-                <a href="/news/category/science">IT과학</a>
+                <a
+                  href="/news/category/science"
+                  className={isActiveCategory("science")}
+                >
+                  IT과학
+                </a>
               </li>
             </ul>
           </nav>
-        </div>
-        <div className="header-right">
-          {!isSearchPage && (
-            <FontAwesomeIcon
-              icon={faSearch}
-              className="header-icon"
-              onClick={toggleSearch}
-            />
-          )}
           {user ? (
             <div className="user-menu" ref={menuRef}>
               <FontAwesomeIcon
@@ -153,24 +182,6 @@ const Header = () => {
             </Link>
           )}
         </div>
-      </div>
-      <div
-        className={`search-bar ${isSearchOpen ? "open" : ""}`}
-        ref={searchRef}
-      >
-        <form onSubmit={handleSearch}>
-          <input
-            type="text"
-            placeholder="궁금하신 뉴스를 검색해보세요."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button type="submit">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
-            </svg>
-          </button>
-        </form>
       </div>
     </header>
   );

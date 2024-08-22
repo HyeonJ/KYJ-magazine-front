@@ -10,6 +10,8 @@ import MainRightSection from "./components/MainRightSection";
 import NewsDetailPage from "./pages/NewsDetailPage";
 import { AuthProvider } from "./contexts/AuthContext";
 import "./styles/layout.css";
+import "./styles/main.css";
+import "./styles/header.css";
 import "./styles/global.css";
 
 // 새로운 컴포넌트 생성
