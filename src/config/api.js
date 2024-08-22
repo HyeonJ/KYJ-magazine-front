@@ -8,6 +8,7 @@ export const API_ENDPOINTS = {
   NEWS_DETAIL: `${API_BASE_URL}/api/createNews/detail`,
   TREND_NEWS_LIST: `${API_BASE_URL}/api/createNews/trend/list`,
   UPDATE_NEWS_JOIND: `${API_BASE_URL}/api/createNews/joind/update`,
+  UPDATE_NEWS_LOG: `${API_BASE_URL}/api/createNews/log/update`,
   ID_VALIDATION: `${API_BASE_URL}/api/user/validation/id`,
   EMAIL_VALIDATION: `${API_BASE_URL}/api/user/validation/email`,
   GET_LIKE: `${API_BASE_URL}/api/createNews/like/get`,

@@ -39,6 +39,12 @@ const NewsDetailPage = () => {
             date: formatDate(data.createNewsDate),
           };
           setNewsData(formattedData);
+
+          // localStorage에 token이 있을 경우에만 updateNewsLog 실행
+          const token = localStorage.getItem("token");
+          if (token) {
+            await updateNewsLog(id, token);
+          }
         } else if (response.status === 404) {
           setError("뉴스를 찾을 수 없습니다.");
         } else {
@@ -54,24 +60,26 @@ const NewsDetailPage = () => {
     fetchNewsData();
   }, [id]);
 
-  useEffect(() => {
-    const updateJoind = async () => {
-      if (newsData) {
-        try {
-          const response = await fetch(
-            `${API_ENDPOINTS.UPDATE_NEWS_JOIND}/${id}`
-          );
-          if (!response.ok) {
-            console.error("Failed to update joind");
-          }
-        } catch (err) {
-          console.error("Error updating joind:", err);
+  const updateNewsLog = async (newsId, token) => {
+    try {
+      const response = await fetch(
+        `${API_ENDPOINTS.UPDATE_NEWS_LOG}/${newsId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-      }
-    };
+      );
 
-    updateJoind();
-  }, [newsData, id]);
+      if (!response.ok) {
+        console.error("Failed to update news log");
+      }
+    } catch (err) {
+      console.error("Error updating news log:", err);
+    }
+  };
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>오류: {error}</div>;
