@@ -4,6 +4,10 @@
   padding: 20px;
 }
 
+.my-page h1 {
+  text-align: center;
+}
+
 .my-page h2 {
   margin-bottom: 20px;
   font-size: 24px;

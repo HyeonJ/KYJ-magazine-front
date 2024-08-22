@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import API_ENDPOINTS from "../config/api";
 import Swal from "sweetalert2";
@@ -143,6 +143,9 @@ const MyPage = () => {
 
   return (
     <div className="my-page">
+      <Link to="/">
+        <h1 className="login-title">KYJ Magazine</h1>
+      </Link>
       <h2>회원정보</h2>
       <div className="user-info">
         <div className="info-group">

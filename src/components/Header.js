@@ -56,12 +56,12 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     logout();
-    navigate("/");
+    window.location.href = "/";
     setIsMenuOpen(false);
   };
 
   const handleMyPage = () => {
-    navigate("/mypage");
+    window.location.href = "/mypage";
     setIsMenuOpen(false);
   };
 
