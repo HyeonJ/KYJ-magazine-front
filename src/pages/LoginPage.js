@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
 import API_ENDPOINTS from "../config/api";
+import Swal from "sweetalert2";
 import "./LoginPage.css";
 
 const LoginPage = () => {
@@ -14,21 +15,27 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_ENDPOINTS.SIGNIN}`, {
+      const response = await axios.post(API_ENDPOINTS.SIGNIN, {
         id,
         password,
       });
-      console.log(response.data);
 
-      if (response.data === "아이디 또는 비밀번호가 잘못되었습니다.") {
-        // Handle incorrect login
-      } else {
+      if (response.status === 200) {
         login(response.data.userId);
         localStorage.setItem("token", response.data.token);
         navigate("/");
+      } else {
+        throw new Error("로그인에 실패했습니다.");
       }
     } catch (error) {
       console.error("로그인 오류:", error);
+      Swal.fire({
+        icon: "error",
+        title: "로그인 실패",
+        text:
+          error.response?.data || "아이디 또는 비밀번호가 올바르지 않습니다.",
+        confirmButtonText: "확인",
+      });
     }
   };
 
