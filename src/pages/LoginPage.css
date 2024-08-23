@@ -36,16 +36,15 @@
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  margin-bottom: 20px; /* Add space between login button and signup link */
 }
 
-.login-links {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  width: 300px;
+.signup-link {
+  text-align: center;
+  width: 100%;
 }
 
-.login-links a {
+.signup-link a {
   color: #666;
   text-decoration: none;
   font-size: 14px;

@@ -51,7 +51,7 @@ html {
 .news-detail-right-section {
   width: 250px;
   padding: 1rem;
-  margin: 10px;
+  margin: 20px 10px;
   background: white;
   border: 1px solid #dcdbd9;
   border-radius: 10px;
@@ -59,8 +59,8 @@ html {
 
 .news-detail-main-section {
   width: 60%;
-  margin: 10px;
-  padding: 10px;
+  margin: 20px 10px;
+  padding: 10px 50px;
   background: white;
   border: 1px solid #dcdbd9;
   border-radius: 10px;
@@ -197,7 +197,7 @@ html {
 
 .news-detail-left-section ul {
   list-style-type: none;
-  padding-left: 1rem;
+  padding-left: 0;
 }
 
 .news-detail-left-section li {
@@ -206,12 +206,17 @@ html {
   color: #666;
 }
 
-.news-detail-left-section li::before {
+/* .news-detail-left-section li::before {
   content: "•";
   color: #999;
   display: inline-block;
   width: 1em;
   margin-left: -1em;
+} */
+
+.related-news-item img {
+  width: 120px;
+  display: block;
 }
 
 @media (max-width: 1280px) {

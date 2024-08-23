@@ -38,10 +38,20 @@ const NewsDetailLeftSection = ({ newsData }) => {
       return <p>관련 기사가 없습니다.</p>;
     }
     return (
-      <ul>
+      <ul className="related-news-list">
         {relatedNews.map((news) => (
-          <li key={news.createNewsNum}>
-            <a href={`/news/${news.createNewsNum}`}>{news.title}</a>
+          <li key={news.createNewsNum} className="related-news-item">
+            <a
+              href={`/news/${news.createNewsNum}`}
+              className="related-news-link"
+            >
+              <img
+                src={`${API_ENDPOINTS.BASE_URL}${news.thumbnailURL}`}
+                alt={news.title}
+                className="related-news-thumbnail"
+              />
+              <span className="related-news-title">{news.title}</span>
+            </a>
           </li>
         ))}
       </ul>

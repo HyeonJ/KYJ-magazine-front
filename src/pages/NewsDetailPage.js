@@ -5,6 +5,7 @@ import NewsDetailMainSection from "../components/NewsDetailMainSection";
 import NewsDetailLeftSection from "../components/NewsDetailLeftSection";
 import NewsDetailRightSection from "../components/NewsDetailRightSection";
 import API_ENDPOINTS from "../config/api";
+import Footer from "../components/Footer";
 import "../styles/NewsDetail.css";
 
 const NewsDetailPage = () => {
@@ -81,7 +82,7 @@ const NewsDetailPage = () => {
     }
   };
 
-  if (loading) return <div>로딩 중...</div>;
+  if (loading) return <div></div>;
   if (error) return <div>오류: {error}</div>;
 
   return (
@@ -103,6 +104,7 @@ const NewsDetailPage = () => {
       ) : (
         <div>뉴스 데이터를 찾을 수 없습니다.</div>
       )}
+      <Footer />
     </div>
   );
 };
