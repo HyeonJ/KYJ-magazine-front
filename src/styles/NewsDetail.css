@@ -219,6 +219,10 @@ html {
   display: block;
 }
 
+.ad_img {
+  width: 210px;
+}
+
 @media (max-width: 1280px) {
   .news-detail-left-section,
   .news-detail-title-left-container {

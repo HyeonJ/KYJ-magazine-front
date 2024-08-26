@@ -7,6 +7,7 @@ export const API_ENDPOINTS = {
   NEWS_LIST_SEARCH: `${API_BASE_URL}/api/createNews/list/search`,
   NEWS_DETAIL: `${API_BASE_URL}/api/createNews/detail`,
   TREND_NEWS_LIST: `${API_BASE_URL}/api/createNews/trend/list`,
+  RECOMMEND_NEWS_LIST: `${API_BASE_URL}/api/createNews/recommend/list`,
   CATEGORY_RANKING_NEWS_LIST: `${API_BASE_URL}/api/createNews/category/ranking/list`,
   UPDATE_NEWS_JOIND: `${API_BASE_URL}/api/createNews/joind/update`,
   UPDATE_NEWS_LOG: `${API_BASE_URL}/api/createNews/log/update`,

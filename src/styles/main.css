@@ -34,3 +34,8 @@
   border: 1px solid #dcdbd9;
   border-radius: 10px;
 }
+
+.related-news-item img {
+  width: 120px;
+  display: block;
+}
