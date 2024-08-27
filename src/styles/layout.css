@@ -77,6 +77,10 @@
   margin-bottom: 2rem;
 }
 
+.section li {
+  margin-bottom: 0.8rem;
+}
+
 .section li a {
   text-decoration: none;
   color: black;

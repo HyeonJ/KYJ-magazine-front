@@ -13,6 +13,7 @@ const Header = () => {
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [username, setUsername] = useState("");
   const menuRef = useRef(null);
   const searchRef = useRef(null);
   const navigate = useNavigate();
@@ -20,6 +21,13 @@ const Header = () => {
 
   const isSearchPage = location.pathname === "/news/search";
   const [isSearchOpen, setIsSearchOpen] = useState(isSearchPage);
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -161,7 +169,7 @@ const Header = () => {
               {isMenuOpen && (
                 <div className="dropdown-menu">
                   <ul>
-                    <li>{user.name || "사용자"} 님</li>
+                    <li>{username || user.name || "사용자"} 님</li>
                     <li>
                       <button onClick={handleMyPage}>회원정보</button>
                     </li>

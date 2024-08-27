@@ -23,6 +23,7 @@ const LoginPage = () => {
       if (response.status === 200) {
         login(response.data.userId);
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("username", response.data.username);
         localStorage.setItem(
           "recommendedArticles",
           response.data.recommendedArticles
