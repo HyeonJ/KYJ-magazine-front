@@ -59,7 +59,7 @@ const NewsDetailLeftSection = ({ newsData }) => {
   };
 
   return (
-    <div className="news-detail-left-section">
+    <div className="news-detail-left-section section">
       <h3>관련 기사</h3>
       {renderContent()}
     </div>

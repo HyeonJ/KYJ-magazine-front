@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import API_ENDPOINTS from "../config/api";
 import "./SignupPage.css";
+import Swal from "sweetalert2";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -35,11 +36,9 @@ const SignupPage = () => {
       [name]: value,
     }));
 
-    // Reset availability states when input changes
     if (name === "id") setIdAvailable(null);
     if (name === "email") setEmailAvailable(null);
 
-    // Check password match when either password or passwordConfirm changes
     if (name === "password" || name === "passwordConfirm") {
       const otherField = name === "password" ? "passwordConfirm" : "password";
       const otherValue = formData[otherField];
@@ -92,11 +91,28 @@ const SignupPage = () => {
       );
 
       const data = await response.json();
-      if (data.result === "중복") setIdAvailable(false);
-      else setIdAvailable(true);
+      if (data.result === "중복") {
+        setIdAvailable(false);
+        Swal.fire({
+          icon: "error",
+          title: "사용 불가능한 ID",
+          text: "이미 사용 중인 ID입니다.",
+        });
+      } else {
+        setIdAvailable(true);
+        Swal.fire({
+          icon: "success",
+          title: "사용 가능한 ID",
+          text: "사용 가능한 ID입니다.",
+        });
+      }
     } catch (error) {
       console.error("ID 중복 확인 중 오류 발생:", error);
-      alert("ID 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "오류",
+        text: "ID 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      });
     }
   };
 
@@ -106,23 +122,48 @@ const SignupPage = () => {
         `${API_ENDPOINTS.EMAIL_VALIDATION}?email=${formData.email}`
       );
       const data = await response.json();
-      if (data.result === "중복") setEmailAvailable(false);
-      else setEmailAvailable(true);
+      if (data.result === "중복") {
+        setEmailAvailable(false);
+        Swal.fire({
+          icon: "error",
+          title: "사용 불가능한 이메일",
+          text: "이미 사용 중인 이메일입니다.",
+        });
+      } else {
+        setEmailAvailable(true);
+        Swal.fire({
+          icon: "success",
+          title: "사용 가능한 이메일",
+          text: "사용 가능한 이메일입니다.",
+        });
+      }
     } catch (error) {
       console.error("이메일 중복 확인 중 오류 발생:", error);
-      alert("이메일 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "오류",
+        text: "이메일 중복 확인 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      });
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (idAvailable !== true || emailAvailable !== true) {
-      alert("ID와 이메일 중복 확인을 먼저 해주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "오류",
+        text: "ID와 이메일 중복 확인을 먼저 해주세요.",
+      });
       return;
     }
 
     if (!passwordMatch) {
-      alert("비밀번호가 일치하지 않습니다.");
+      Swal.fire({
+        icon: "error",
+        title: "오류",
+        text: "비밀번호가 일치하지 않습니다.",
+      });
       return;
     }
 
@@ -132,7 +173,6 @@ const SignupPage = () => {
       subInterest: formData.subInterest.join(","),
     };
 
-    // Remove passwordConfirm from the data to be sent
     delete formDataToSend.passwordConfirm;
 
     try {
@@ -145,15 +185,28 @@ const SignupPage = () => {
       });
 
       if (response.ok) {
-        alert("회원가입이 완료되었습니다.");
-        navigate("/login");
+        Swal.fire({
+          icon: "success",
+          title: "성공",
+          text: "회원가입이 완료되었습니다.",
+        }).then(() => {
+          navigate("/login");
+        });
       } else {
         const errorData = await response.json();
-        alert(`회원가입 실패: ${errorData.message}`);
+        Swal.fire({
+          icon: "error",
+          title: "회원가입 실패",
+          text: errorData.message,
+        });
       }
     } catch (error) {
       console.error("회원가입 중 오류 발생:", error);
-      alert("회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.");
+      Swal.fire({
+        icon: "error",
+        title: "오류",
+        text: "회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      });
     }
   };
 
